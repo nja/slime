@@ -4019,8 +4019,10 @@ This is for use in the implementation of COMMON-LISP:ED."
     (select-frame slime-ed-frame))
   (when what
     (slime-dcase what
-      ((:filename file &key line column position bytep)
-       (find-file (slime-from-lisp-filename file))
+      ((:filename file &key line column position bytep other-window-p)
+       (if other-window-p
+           (find-file-other-window (slime-from-lisp-filename file))
+           (find-file (slime-from-lisp-filename file)))
        (when line (slime-goto-line line))
        (when column (move-to-column column))
        (when position
